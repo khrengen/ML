@@ -64,20 +64,18 @@ if __name__ == '__main__':
     print('accur: ',model.score(testX,testY))
     print(test_report)
 
-    trainX = np.array(trainX)
-    trainY = np.array(trainY)
-    testX = np.array(testX)
-
-    theta = np.zeros((trainX.shape[1], 1))
-    param = myLog.fit(trainX, trainY, theta)
-    res = myLog.prediction(testX, param)
+    trainLog = np.c_[np.ones(len(trainX)), trainX]
+    testLog = np.c_[np.ones(len(testX)), testX]
+    theta = np.zeros((trainLog.shape[1], 1))
+    param = myLog.fit(trainLog, trainY, theta)
+    res = myLog.prediction(testLog, param)
     pred_class = myLog.predict(res)
     test_report = classification_report(pred_class, testY)
     print('my log:\n', pred_class)
     print('my accur: ', myLog.accur(res, testY))
     print(test_report)
 
-    res = myLog.prediction(trainX, param)
+    res = myLog.prediction(trainLog, param)
     pred_class = myLog.predict(res)
     print('LR train:', myLog.accur(pred_class, trainY))
 
